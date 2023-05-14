@@ -1,5 +1,7 @@
 class Admin::ProductsController < ApplicationController
 
+  http_basic_authenticate_with name: ENV["ADMIN_USERNAME"], password: ENV["ADMIN_PASSWORD"]
+
   def index
     @products = Product.order(id: :desc).all
   end
@@ -9,6 +11,7 @@ class Admin::ProductsController < ApplicationController
   end
 
   def create
+
     @product = Product.new(product_params)
 
     if @product.save
