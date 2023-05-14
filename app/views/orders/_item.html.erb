@@ -1,0 +1,18 @@
+<tr>
+  <td>
+    <img src="<%= item.product.image.tiny.url %>">
+  <td>
+    <h4><%= item.product.name %></h4>
+  </td>
+  <td>
+    <%= item.product.price %>
+  </td>
+  <td>
+    <div>
+      <%= item.quantity %>
+    </div>
+  </td>
+  <td>
+    <%= humanized_money_with_symbol item.total_price_cents / 100.0 %>
+  </td>
+</tr>
