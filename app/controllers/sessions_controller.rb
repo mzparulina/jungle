@@ -6,15 +6,15 @@ class SessionsController < ApplicationController
     if user = User.authenticate_with_credentials(params[:email], params[:password])
       # Save the user id inside the browser cookie. This is how we keep the user logged in when they navigate around our website.
       session[:user_id] = user.id
-      redirect_to "/"
+      redirect_to '/', notice: 'Logged in successfully'
     else
-      # If user's login doesn't work, send them back to the login form.
+      flash.now[:alert] = 'Invalid email or password'
       redirect_to "/login"
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to "/login"
+    redirect_to "/login", notice: 'Logged Out'
   end
 end

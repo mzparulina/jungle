@@ -1,24 +1,19 @@
 class User < ApplicationRecord
 
-  def self.authenticate_with_credentials(email, password)
-    # Check email is associated with email
-    trim_email = email&.strip&.downcase
-    user = User.find_by_email(trim_email)
-
-    if (!user)
-      return nil
-    end
-
-    # Check if user password matches
-    if (!user.authenticate(password))
-      return nil
-    end
-
-    return user
-  end
+  has_secure_password
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :email, presence: true, uniqueness: true, format: { with: /\A[^@\s]+@[^@\s]+\z/, message: 'Invalid email' }
-  validates :password, presence: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, length: { minimum: 6}
+
+  def self.authenticate_with_credentials(email, password)
+    email = email.downcase.strip
+    @user = User.find_by_email(email)
+    if @user && @user.authenticate(password)
+      @user
+    else
+      nil
+    end
+  end
 end
