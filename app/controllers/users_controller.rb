@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    user_params[:email] = user_params[:email].downcase.strip
     @user = User.new(user_params)
 
     # Save session in server, the redirect to homepage
@@ -15,7 +16,6 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
   end
 
   private
